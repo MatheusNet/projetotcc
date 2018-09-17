@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.matheusaraujo.projetotcc.domain.Categoria;
 import com.matheusaraujo.projetotcc.services.CategoriaService;
 
+import javassist.tools.rmi.ObjectNotFoundException;
+
 @RestController// NOTAÇÃO INDICATIVA DE UM CONTROLLER REST
 @RequestMapping(value = "/categorias")//END POINT INFORMADO 
 public class CategoriaResource {
@@ -28,7 +30,7 @@ public class CategoriaResource {
 	 *  UMA VARIÁVEL E ATRIBUI O VALOR DELE AO DA VARIÁVEL JÁ EXISTENTE
 	 * */	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<?> find(@PathVariable Integer id) throws ObjectNotFoundException {
 		
 		/*RESPONSE ENTITY É UM TIPO ESPECIAL QUE 
 		 * ARMAZENA  E ENCAPSULA VÁRIAS INFORMAÇÕES 

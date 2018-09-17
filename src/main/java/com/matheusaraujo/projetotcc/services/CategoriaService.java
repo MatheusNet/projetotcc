@@ -1,5 +1,6 @@
 package com.matheusaraujo.projetotcc.services;
 
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.matheusaraujo.projetotcc.domain.Categoria;
 import com.matheusaraujo.projetotcc.repositories.CategoriaRepository;
+
+import javassist.tools.rmi.ObjectNotFoundException;
 /*
  * ESTA CLASSE DE SERVIÇOS VAI BUSCAR O REPOSITÓRIO CATEGORIA
  * QUE POR SUA VEZ, VAI ATÉ A BASE DE DADOS BUSCAR UMA CATEGORIA
@@ -25,11 +28,16 @@ public class CategoriaService {
 	@Autowired 
 	private CategoriaRepository repo; 
 
-	//CRIAND UMA OPERAÇÃO QUE VAI BUSCAR UMA CATEGORIA
-	public Categoria buscar(Integer id) {
+	//CRIAND UMA OPERAÇÃO QUE VAI BUSCAR UMA CATEGORIA COM TRATAMENTO DE EXCEÇÃO
+	public Categoria buscar(Integer id) throws ObjectNotFoundException {
+		
 		//MÉTODO RESPONSÁVEL POR BUSCAR A CATEGORIA PELO ID NO BD
+		
 		Optional<Categoria> obj = repo.findById(id);
-		return obj.orElse(null);
+		return obj.orElseThrow(()-> new com.matheusaraujo.projetotcc.services.exceptions.ObjectNotFoundException(
+
+				"Objeto não encontrado!  ID: "  + id + "Tipo:  "
+						+ Categoria.class.getName()));
 		
 	}
 	
