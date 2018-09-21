@@ -1,6 +1,8 @@
 package com.matheusaraujo.projetotcc.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Cidade implements Serializable{
@@ -26,6 +29,9 @@ public class Cidade implements Serializable{
 	@ManyToOne // MUITOS PARA UM
 	@JoinColumn(name = "estado_id") //CHAVE ESTRANGEIRA DO ESTADO NA TABELA CIDADEs
 	private Estado estado;
+	
+	@OneToMany(mappedBy = "cidade")	
+	private List<Endereco> endereco = new ArrayList<>();
 	
 	
 	public Cidade() {

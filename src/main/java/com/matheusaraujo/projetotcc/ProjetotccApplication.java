@@ -11,8 +11,13 @@ import com.matheusaraujo.projetotcc.domain.Categoria;
 import com.matheusaraujo.projetotcc.domain.Cidade;
 import com.matheusaraujo.projetotcc.domain.Estado;
 import com.matheusaraujo.projetotcc.domain.Produto;
+import com.matheusaraujo.projetotcc.domain.enums.TipoCliente;
+import com.matheusaraujo.projetotcc.domain.Cliente;
+import com.matheusaraujo.projetotcc.domain.Endereco;
 import com.matheusaraujo.projetotcc.repositories.CategoriaRepository;
 import com.matheusaraujo.projetotcc.repositories.CidadeRepository;
+import com.matheusaraujo.projetotcc.repositories.ClienteRepository;
+import com.matheusaraujo.projetotcc.repositories.EnderecoRepository;
 import com.matheusaraujo.projetotcc.repositories.EstadoRepository;
 import com.matheusaraujo.projetotcc.repositories.ProdutoRepository;
 
@@ -33,6 +38,13 @@ public class ProjetotccApplication implements CommandLineRunner{
 	
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepository;
+	
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjetotccApplication.class, args);
@@ -78,7 +90,38 @@ public class ProjetotccApplication implements CommandLineRunner{
 		
 		//SALVANDO OS ESTADOS E AS CIDADES
 		estadoRepository.saveAll(Arrays.asList(est1,est2));
-		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
+		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));		
+		
+		//INSTANCIAR OS CLIENTES
+		Cliente cl1 = new Cliente(null, "Matheus de Araújo"
+				, "matheusaraujo.ti10@gmail.com", "61034136305"
+				, TipoCliente.PESSOAFISICA);
+		
+		cl1.getTelefones().addAll(Arrays.asList(
+				"(85) 98709-1222", "(85) 98528-6209"));
+		
+					
+		//INSTANCIAR OS ENDERECOS
+		Endereco end1 = new Endereco (null,"Rua Carlos Walraven"
+				, "10", "Calçada Verde", "Jardim Guanabara"
+				, "60346672", cl1, c1);
+		
+		Endereco end2 = new Endereco(null, "Av. Mozart Lucena"
+				, "2020", "Lagoa", "Quintino Cunha"
+				, "6000000", cl1, c1);
+		
+		//ADICIONANDO ENDEREÇO AO CLINTE
+		cl1.getEnderecos().addAll(Arrays.asList(end1, end2));
+		
+		
+		//SALVANDO OS CLIENTES E OS ENDEREÇOS
+		clienteRepository.save(cl1);
+		enderecoRepository.saveAll(Arrays.asList(end1, end2));
+				
+		
+		
+	
+		
 		
 	}
 	
