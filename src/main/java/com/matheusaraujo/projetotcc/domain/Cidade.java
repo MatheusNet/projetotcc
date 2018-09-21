@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Cidade implements Serializable{
 	
@@ -26,9 +29,11 @@ public class Cidade implements Serializable{
 	private String nome;
 	
 	//TODA CIDADE TEM UM ESTADO
+	@JsonManagedReference
 	@ManyToOne // MUITOS PARA UM
 	@JoinColumn(name = "estado_id") //CHAVE ESTRANGEIRA DO ESTADO NA TABELA CIDADEs
 	private Estado estado;
+	
 	
 	@OneToMany(mappedBy = "cidade")	
 	private List<Endereco> endereco = new ArrayList<>();
